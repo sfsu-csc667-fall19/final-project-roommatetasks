@@ -8,9 +8,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const DashBoard = () => {
 
+    const [task, setTask] = React.useState('');
+    
+
     const createTask = () => {
         const body = {
-
+            note:task,
+            user:"maybe add user"
         }
         axios.post('/endpoint', body)
             .then((res) => {
@@ -67,7 +71,7 @@ const DashBoard = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="noteBox row">
+                    <div className="noteBox">
                         <div className="row">
                             <div className="col"> static sanoke notes 
                             <input className="check" type="checkbox"></input>
@@ -77,8 +81,8 @@ const DashBoard = () => {
 
                 </div>
                 <div className="marginBot" >
-                    <input className="inputsz"></input>
-                    <button className="inputsz">Add Task</button>
+                    <input className="inputsz" value={task} onChange={e=>{setTask(e.target.value)}}/>
+                    <button className="inputsz" onClick={createTask}>Add Task</button>
                 </div>
             </div>
         </div>
