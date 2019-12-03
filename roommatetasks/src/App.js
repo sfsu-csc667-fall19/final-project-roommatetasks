@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
 import { Switch, Route, Link } from "react-router-dom";
-import './App.css';
-import { connect } from 'react-redux';
+import "./App.css";
+import { connect } from "react-redux";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Notes from "./Notes";
 
-const App = ( isLoggedIn ) => {
+const App = isLoggedIn => {
   return (
     <div className="App">
       <div className="nav-bar">
@@ -30,10 +31,10 @@ const App = ( isLoggedIn ) => {
       </Switch>
     </div>
   );
-}
+};
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.userReducer.isLoggedIn,
+  isLoggedIn: state.userReducer.isLoggedIn
 });
 
 export default connect(mapStateToProps)(App);

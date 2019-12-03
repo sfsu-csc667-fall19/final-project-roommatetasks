@@ -1,0 +1,19 @@
+{
+  "name": "final-project-roommatetasks",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sfsu-csc667-fall19/final-project-roommatetasks.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sfsu-csc667-fall19/final-project-roommatetasks/issues"
+  },
+  "homepage": "https://github.com/sfsu-csc667-fall19/final-project-roommatetasks#readme",
+  "description": ""
+}
