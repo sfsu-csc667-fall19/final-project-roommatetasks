@@ -4,6 +4,8 @@ import "./App.css";
 import { connect } from "react-redux";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Notes from "./pages/Notes";
+import Register from "./pages/Register";
 
 const App = isLoggedIn => {
   return (
