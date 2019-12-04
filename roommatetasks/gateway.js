@@ -5,21 +5,29 @@ const port = process.env.PORT || 3004;
 
 const apiProxy = httpProxy.createProxyServer();
 
+/*
+  apiProxy.on('proxyReq', function(proxyReq, req, res, options) {
+  proxyReq.setHeader('X-Special-Proxy-Header', 'null');
+  console.log('RAW Response from the target', JSON.stringify(proxyRes.headers, true, 2));
+
+});
+*/
+
 apiProxy.on('error', (err, req, res) => {
   console.log(err)
   res.status(500).send('Proxy Error');
 });
 
 app.all("/cookie/*", (req, res) => {
-  // cookie service
+  // service1
   console.log(req.path)
   apiProxy.web(req, res, {
     target: 'http://localhost:3001',
   });
 });
 
-app.all("/auth*", (req, res) => {
-  // auth for login user
+app.all("/auth", (req, res) => {
+  
   apiProxy.web(req, res, {
     target: 'http://localhost:3002',
   });
@@ -32,12 +40,22 @@ app.all("*", (req, res) => {
   });
 });
 
-app.all("/authservice/*", (req, res) => {
-    // mongo
+app.all("/list/*", (req, res) => {
+    // service1
     console.log(req.path)
     apiProxy.web(req, res, {
-      target: 'http://localhost:2305',
-    });
+      target: 'http://localhost:4000',
+    }
+    );
+  });
+
+  app.all("/users", (req, res) => {
+    // service1
+    console.log(req.path)
+    apiProxy.web(req, res, {
+      target: 'http://localhost:4000',
+    }
+    );
   });
 
 app.listen(port, () => console.log(`Gateway on port ${port}!`))
