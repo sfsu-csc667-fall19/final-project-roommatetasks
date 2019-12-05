@@ -4,28 +4,29 @@ import axios from 'axios';
 
 
 
-const getCookies = () => {
-  document.cookie = 'email = ${email}';
-  document.cookie = 'password = ${password}';
+function setCookie (email, password) {
+
+  document.cookie = 'email=' + email;
+  document.cookie = 'password=' + password;
   axios.post('/cookies/')
     .then((res) => {
-
+      
       console.log(res)
     })
     .catch(console.log);
-};
+}
 
 
 
 
-const Dashboard = ({ hasCookies, email }) => {
+const Dashboard = ({ hasCookies, email, password }) => {
   return (
     
     <div>
       <h2>Dashboard</h2>
       {hasCookies && (
       <div>Welcome {email}
-      <button onClick={getCookies}>Get Data</button>
+      <button onClick={setCookie(email,password)}>Get Data</button>
       </div>
       
       )}
