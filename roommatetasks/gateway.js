@@ -29,7 +29,7 @@ app.all("/cookie/*", (req, res) => {
 app.all("/auth/", (req, res) => {
   
   apiProxy.web(req, res, {
-    target: 'http://localhost:3002/auth',
+    target: 'http://localhost:3002/',
   });
 });
 
