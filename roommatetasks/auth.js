@@ -47,7 +47,7 @@ client.connect((err) => {
     }
     db.collection('users').findOne({email: req.body.email}, function(err, user) {
         if(err) {
-            res.json({msg: 'database error'})
+            res.json({msg: 'error'})
           }
           //if user was not found
           if (!user) {

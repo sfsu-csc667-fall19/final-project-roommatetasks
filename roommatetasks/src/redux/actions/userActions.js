@@ -32,9 +32,10 @@ export const addUser = (email, rpassword) => (dispatch, getState) => {
   //post request to routes using query on url
   const body = {
     email: email,
-    password: rpassword,
+    password: rpassword
   }
-  axios.post('/users/', body)
+  console.log("ok")
+  axios.post('/users', body)
     .then(res => dispatch({
       type: 'REGISTER_SUCCESS',
       payload: res.data
@@ -48,7 +49,7 @@ export const addUser = (email, rpassword) => (dispatch, getState) => {
 
 export const checkUser = (email, password) => (dispatch, getState) => {
   //const {email, password} = getState().userReducer;
-  //post request to routes using query on url
+  //post request to routes using query on addurl
   axios.post(`/auth?email=${email}&password=${password}`)
     .then(res => dispatch({
       type: 'LOGIN_SUCCESS',
@@ -71,7 +72,7 @@ export const checkUserInBody = (email, password) => (dispatch, getState) => {
   };
   //post request to routes using query on url
   console.log("I'mm here")
-  axios.post('/auth/', body)
+  axios.post('/auth', body)
     .then((res) => {
       //valid key is true => user is able to login
       if (res.data.valid) {

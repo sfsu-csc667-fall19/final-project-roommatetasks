@@ -27,18 +27,18 @@ app.all("/cookie/*", (req, res) => {
 });
 
 app.all("/auth/", (req, res) => {
-  console.log("boo")
+  
   apiProxy.web(req, res, {
     target: 'http://localhost:3002/auth',
   });
 });
 
-app.all("*", (req, res) => {
+/*app.all("*", (req, res) => {
   // front end server / react
   apiProxy.web(req, res, {
     target: 'http://localhost:3000',
   });
-});
+});*/
 
 app.all("/list/*", (req, res) => {
     // service1
@@ -49,11 +49,11 @@ app.all("/list/*", (req, res) => {
     );
   });
 
-  app.all("/users", (req, res) => {
+  app.all("/users*", (req, res) => {
     // service1
     console.log(req.path)
     apiProxy.web(req, res, {
-      target: 'http://localhost:4000/users',
+      target: 'http://localhost:4000/',
     }
     );
   });
