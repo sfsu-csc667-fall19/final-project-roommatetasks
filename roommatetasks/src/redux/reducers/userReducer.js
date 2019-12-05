@@ -44,7 +44,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
     case 'REGISTER_SUCCESS':
       return {
         ...state,
-        ...action.payload,
+        //...action.payload,
         isLoggedIn: false,
         isRegister: true,
       }

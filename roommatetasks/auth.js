@@ -54,6 +54,8 @@ client.connect((err) => {
             return res.status(400).json({
                      msg: "User does not register yet"})
           } else if ( user.password !== password ){
+              
+              
               return res.status(400).json({
                   msg: "Invalid credentials"})
           } else { 
