@@ -1,12 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import RegisterUser from "./RegisterUser";
-import axios from 'axios';
-import md5 from 'md5';
+import axios from "axios";
+import md5 from "md5";
 
 const Login = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+
+  // React.useEffect(() => {
+  //   console.log("in useEffect")
+
+  // },[])
 
   const handleLogin = () => {
     console.log("in handle login", email, password);
@@ -14,19 +19,23 @@ const Login = () => {
     const loginData = {
       email,
       password: md5(password)
-    }
+    };
 
     axios
       .post("/login", {
         loginData
       })
       .then(function(response) {
-        console.log("back to login",response);
+        console.log("back to login", response);
+        // if(response.data.valid){
+        //   console.log("we can set cookies here");
+        //   document.cookie = `email=${email}`; 
+        //   document.cookie = `password=${md5(password)}`; 
+        // }
       })
       .catch(function(error) {
         console.log(error);
       });
-
   };
 
   const handleRegister = () => {
@@ -39,22 +48,23 @@ const Login = () => {
       <div>
         <h3>Login to the Roommate Task Scheduling </h3>
       </div>
-      <div>
-        <span> Email </span>
-        <input
-          type="text"
-          id="input-email"
-          onChange={e => setEmail(e.target.value)}
-        ></input>
+      <div className="container">
+        <table>
+          <tr>
+            <th> Email </th>
+            <td>
+              <input onChange={e => setEmail(e.target.value)} />
+            </td>
+          </tr>
+          <tr>
+            <th> Password </th>
+            <td>
+              <input onChange={e => setPassword(e.target.value)} />
+            </td>
+          </tr>
+        </table>
       </div>
-      <div>
-        <span> Password </span>
-        <input
-          type="password"
-          id="input-password"
-          onChange={e => setPassword(e.target.value)}
-        ></input>
-      </div>
+
       <div>
         <button id="button-login" onClick={handleLogin}>
           Login

@@ -1,23 +1,31 @@
-const express = require('express');
-const { MongoClient, ObjectID } = require('mongodb');
+const express = require("express");
+const { MongoClient, ObjectID } = require("mongodb");
 const app = express();
-const cors = require('cors');
+const cors = require("cors");
 const port = 2305;
+const cookieParser = require("cookie-parser");
+const redis = require("redis");
+const axios = require("axios");
+
+const redisClient = redis.createClient();
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 // Connection URL
-const url = 'mongodb://localhost:27017';
+const url = "mongodb://localhost:27017";
 
 // Database Name
-const dbName = 'roommate-tasks';
+const dbName = "roommate-tasks";
 
 // Create a new MongoClient
 const client = new MongoClient(url);
 
+let loginCounter = 0;
+
 // Use connect method to connect to the Server
-client.connect((err) => {
+client.connect(err => {
   if (err) {
     console.log(err);
     process.exit(1);
@@ -26,31 +34,37 @@ client.connect((err) => {
   console.log("Connected successfully to server");
   const db = client.db(dbName);
 
-  app.post('/registeruser', (req,res) => {
+  app.post("/registeruser", (req, res) => {
     console.log("in register user server", req.body.userData);
-    db.collection('users').insertOne({
+    db.collection("users").insertOne({
       firstName: req.body.userData.firstName,
       lastName: req.body.userData.lastName,
       email: req.body.userData.email,
       password: req.body.userData.password
-    })
+    });
 
     res.send("You are a registered user now");
-  })
+  });
 
-  app.post('/login', (req, res) => {
+  app.post("/login", (req, res) => {
+    loginCounter++;
+    let valid = false;
     console.log("in login server", req.body.loginData);
-    var document = db.collection('users').find({
-      $and:[
-        {email: req.body.loginData.email},
-        {password: req.body.loginData.password}
-      ]
-    }).toArray()
-    .then((document) => {
-      console.log("doc",document);
-      res.send(document);
-    })
-  })
+    var document = db
+      .collection("users")
+      .find({
+        $and: [
+          { email: req.body.loginData.email },
+          { password: req.body.loginData.password }
+        ]
+      })
+      .toArray()
+      .then(document => {
+        if (document.length !== 0) valid = true;
+        console.log("doc", document);
+        res.send({ document, valid });
+      });
+  });
 
   app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 });
