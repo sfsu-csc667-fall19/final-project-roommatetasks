@@ -8,7 +8,7 @@ function setCookie (email, password) {
 
   document.cookie = 'email=' + email;
   document.cookie = 'password=' + password;
-  axios.post('/cookies/')
+  axios.post('/cookie')
     .then((res) => {
       
       console.log(res)
