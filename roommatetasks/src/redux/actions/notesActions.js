@@ -6,7 +6,7 @@ const setNotes = notes => ({
   notes,
 });
 export const listNotes = () => (dispatch, getState) => {
-  axios.get('/app/list')
+  axios.get('list')
     .then((res) => dispatch(setNotes(res.data)))
     .catch(console.log);
 };

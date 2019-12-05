@@ -37,10 +37,11 @@ app.use((req, res, next) => {
     } else {
       console.log('cache miss');
       // move rest of code in here
-      axios.post('http://localhost:3002/auth/', body)
+      axios.post('/auth', body)
         .then((res) => {
           if (res.data.valid) {
             client.set(key, true);
+            console.log("cookie here")
             return next();
           } else {
             client.set(key, false);
@@ -61,9 +62,14 @@ app.use((req, res, next) => {
   // }
 })
 
+
+
+
 app.get('/cookie/*', (req, res) => {
   console.log(req.cookies)
   res.send("ads");
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+
+

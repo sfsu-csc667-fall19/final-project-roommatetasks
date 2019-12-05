@@ -9,10 +9,14 @@ import Dashboard from './pages/Dashboard';
 import Notes from './pages/Notes';
 import { connect } from 'react-redux';
 
+
+
+
 const App = ({ isLoggedIn }) => {
   return (
     <div className="App">
       <div className="nav-bar">
+       
         {!isLoggedIn && (
         <div>
           <Link to="/">Register</Link>

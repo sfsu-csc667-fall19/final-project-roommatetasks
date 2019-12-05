@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   rpassword: '',
   isRegister: false,
   isLoggedIn: false,
+  hasCookies: false,
 };
 
 // Step 2 create listener function
@@ -54,6 +55,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...action.payload,
         isLoggedIn: true,
         isRegister: true,
+        hasCookies: true,
       }
     case 'LOGIN_FAIL':
     case 'REGISTER_FAIL':
@@ -62,6 +64,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
         isLoggedIn: false,
         isRegister: false,
       }
+    
+    /*case 'HAS_COOKIES':
+      return {
+        ...state,
+        hasCookies: true,
+      }*/
 
     
     default:

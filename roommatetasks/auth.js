@@ -62,7 +62,7 @@ client.connect((err) => {
               res.json({
                   email: user.email,
                   password: user.password,
-                  valid: true
+                  valid: true,
                 })
           }    
         });

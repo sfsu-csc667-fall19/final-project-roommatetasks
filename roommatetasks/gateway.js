@@ -18,11 +18,11 @@ apiProxy.on('error', (err, req, res) => {
   res.status(500).send('Proxy Error');
 });
 
-app.all("/cookie/*", (req, res) => {
+app.all("/cookie/", (req, res) => {
   // service1
   console.log(req.path)
   apiProxy.web(req, res, {
-    target: 'http://localhost:3001',
+    target: 'http://localhost:3001/',
   });
 });
 
@@ -40,11 +40,11 @@ app.all("/auth/", (req, res) => {
   });
 });*/
 
-app.all("/list/*", (req, res) => {
+app.all("/list/", (req, res) => {
     // service1
     console.log(req.path)
     apiProxy.web(req, res, {
-      target: 'http://localhost:4000',
+      target: 'http://localhost:4000/',
     }
     );
   });

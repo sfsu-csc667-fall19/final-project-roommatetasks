@@ -173,7 +173,7 @@ client.connect(err => {
       err,
       user
     ) {
-      if (err) {
+      if (err) {req.session.cookie.username = req.body.username
         res.json({ msg: "error" });
       }
       //if user was mot found
@@ -190,9 +190,12 @@ client.connect(err => {
           email: user.email,
           password: user.password
         });
+        
+      
       }
     });
   });
+
 
   app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 });
