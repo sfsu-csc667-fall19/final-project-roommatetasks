@@ -154,13 +154,13 @@ client.connect((err) => {
   //require query email and password for get request
   //for login check
   app.post('/checkauth', (req, res) => {
-    const {email, password} = req.query;
+    const {email, password} = req.body;
     if(!email || !password) {
         return res.status(400).json({
             msg: 'Enter All Fields'
         })
     }
-    db.collection('users').findOne({email: req.query.email}, function(err, user) {
+    db.collection('users').findOne({email: req.body.email}, function(err, user) {
         if(err) {
             res.json({msg: 'error'})
           }

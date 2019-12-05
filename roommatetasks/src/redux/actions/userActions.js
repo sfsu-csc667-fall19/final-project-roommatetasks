@@ -70,7 +70,8 @@ export const checkUserInBody = (email, password) => (dispatch, getState) => {
     password: password, 
   };
   //post request to routes using query on url
-  axios.post('/auth', body, options)
+  console.log("I'mm here")
+  axios.post('/auth/', body)
     .then((res) => {
       //valid key is true => user is able to login
       if (res.data.valid) {

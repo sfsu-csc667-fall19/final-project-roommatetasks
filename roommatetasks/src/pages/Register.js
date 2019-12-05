@@ -10,7 +10,7 @@ const Register = ({ dispatch, email, rpassword , isRegister}) => {
   //const [email, setEmail] = React.useState('');
   //const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
-  console.log(isRegister);
+  //console.log(isRegister);
   const verify = () => {
     if (email !== null && rpassword !== null) {
         dispatch(addUser(email, md5(rpassword)));          
