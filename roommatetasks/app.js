@@ -113,7 +113,7 @@ client.connect(err => {
     //if there is no data in the database or data no match
     //need to add callback function inside findOne or it will failed
     //const {email, password} = req.body;
-    console.log("blah blah")
+    
     const email = req.body.email;
     const password = req.body.password;
     if (!email || !password) {

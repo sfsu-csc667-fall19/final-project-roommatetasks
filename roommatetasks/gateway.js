@@ -49,7 +49,7 @@ app.all("/list/*", (req, res) => {
     );
   });
 
-  app.all("/users*", (req, res) => {
+  app.all("/users", (req, res) => {
     // service1
     console.log(req.path)
     apiProxy.web(req, res, {
