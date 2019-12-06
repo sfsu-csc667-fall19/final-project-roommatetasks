@@ -19,9 +19,9 @@ const App = isLoggedIn => {
             <Link to="/login">Login</Link>
           </div>
         )}
-        {!isLoggedIn && (
+        {isLoggedIn && (
           <div>
-            <Link to="/notes">Notes</Link>
+            <Link to="/notes">Register</Link>
           </div>
         )}
       </div>
