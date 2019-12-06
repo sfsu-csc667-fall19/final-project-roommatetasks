@@ -37,7 +37,7 @@ app.use((req, res, next) => {
     } else {
       console.log('cache miss');
       // move rest of code in here
-      axios.post('/auth', body)
+      axios.post("http://localhost:3002/auth", body)
         .then((res) => {
           if (res.data.valid) {
             client.set(key, true);
@@ -65,7 +65,7 @@ app.use((req, res, next) => {
 
 
 
-app.get('/cookie/*', (req, res) => {
+app.get('/cookie', (req, res) => {
   console.log(req.cookies)
   res.send("ads");
 });
