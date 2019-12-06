@@ -3,27 +3,16 @@ import React from "react";
 const Login = () => {
   return (
     <div>
-      {/* <h1>Login</h1>
-      <form>
-        <div className="form-group">
-          <label htmlFor="username">User Name</label>
-          <input id="username" type="text" className="form-control" />
-        </div>
-        <div className="form-group">
-          <label htmlFor="pasword">Password</label>
-          <input id="pasword" type="text" className="form-control" />
-        </div>
-      </form>
-      <button className="btn btn-primary">Login</button> */}
-      <nav class="navbar bg-dark">
+      {/* navigtion bar is going here ! */}
+      {/* <nav class="navbar bg-dark">
         <h1>
           <a href="index.html">
-            <i class="fas fa-code"></i> DevConnector
+            <i class="fas fa-code"></i> Roommates
           </a>
         </h1>
         <ul>
           <li>
-            <a href="profiles.html">Developers</a>
+            <a href="profiles.html">Home</a>
           </li>
           <li>
             <a href="register.html">Register</a>
@@ -32,7 +21,7 @@ const Login = () => {
             <a href="login.html">Login</a>
           </li>
         </ul>
-      </nav>
+      </nav> */}
 
       <section className="container">
         <div className="alert alert-danger">Invalid User Name or Pasword</div>
