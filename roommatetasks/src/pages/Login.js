@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setEmail, setPassword, checkUserInBody, checkUser } from '../redux/actions/userActions';
+import { setEmail, setPassword, checkUserInBody, checkUser} from '../redux/actions/userActions';
 import md5 from 'md5'
 
 const Login = ({ dispatch, email, password, isLoggedIn }) => {
@@ -26,6 +26,8 @@ const Login = ({ dispatch, email, password, isLoggedIn }) => {
     }
 }
 
+
+
   if (isLoggedIn) {
     return <Redirect to="/dashboard" />;
   }
@@ -34,6 +36,8 @@ const Login = ({ dispatch, email, password, isLoggedIn }) => {
     <div>
       <h2>Login</h2>
       <div>
+      
+       
       <div>
           <input
             name="email"

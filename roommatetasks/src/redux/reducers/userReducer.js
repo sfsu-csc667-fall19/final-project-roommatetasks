@@ -65,11 +65,17 @@ const userReducer = (state = INITIAL_STATE, action) => {
         isRegister: false,
       }
     
-    /*case 'HAS_COOKIES':
+    case 'HAS_COOKIES':
       return {
         ...state,
         hasCookies: true,
-      }*/
+      }
+
+    case 'NO_COOKIES':
+      return {
+        ...state,
+        hasCookies: false,
+      }
 
     
     default:

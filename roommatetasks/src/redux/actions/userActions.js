@@ -26,6 +26,16 @@ export const setIsRegister = isRegister => ({
   isRegister,
 });
 
+export const yesCookies = hasCookies => ({
+  type: 'HAS_COOKIES',
+  hasCookies,
+});
+
+export const noCookies = hasCookies => ({
+  type: 'NO_COOKIES',
+  hasCookies,
+});
+
 //pass 2 parameters email and password to create new user
 export const addUser = (email, rpassword) => (dispatch, getState) => {
   //const {email, password} = getState().userReducer;
@@ -60,6 +70,31 @@ export const checkUser = (email, password) => (dispatch, getState) => {
         type: 'LOGIN_FAIL'
       })
     });
+};
+
+export const authenticateCookies = (hasCookies) => (dispatch, getState) => {
+  const body = {
+    email: document.cookie.email,
+    password: document.cookie.password,
+    cookies: document.cookie
+  };
+  axios.get('/cookie',body)
+  .then((res) => 
+  {
+    if (res.data.valid){
+      console.log("suxxezz")
+   dispatch({
+    type: 'HAS_COOKIES'
+  })
+}
+  })
+  .catch(err => {
+    console.log("fug")
+    dispatch({
+      type: 'NO_COOKIES'
+    })
+  });
+ 
 };
 
 export const checkUserInBody = (email, password) => (dispatch, getState) => {

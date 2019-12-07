@@ -67,7 +67,9 @@ app.use((req, res, next) => {
 
 app.get('/cookie', (req, res) => {
   console.log(req.cookies)
-  res.send("ads");
+  res.send({
+    valid: true,
+  })
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
