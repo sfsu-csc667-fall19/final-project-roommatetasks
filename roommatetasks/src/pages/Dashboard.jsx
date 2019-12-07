@@ -2,20 +2,20 @@ import React from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { setIsLoggedIn } from "../redux/actions/userActions";
-import { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 
 const Dashboard = ({ dispatch, isLoggedIn }) => {
   React.useEffect(() => {
     console.log("in useeffect of dashboard isLoggedin", isLoggedIn);
     if (!isLoggedIn) {
       console.log("in if of dashboard, useeffect, isLoggedIn", isLoggedIn);
-      let cookieData = document.cookie.split(';');
+      let cookieData = document.cookie.split(";");
       let eqPos1 = cookieData[0].indexOf("=") + 1;
-      let email = cookieData[0].substr(eqPos1,cookieData[0].length);
+      let email = cookieData[0].substr(eqPos1, cookieData[0].length);
 
       let eqPos2 = cookieData[1].indexOf("=") + 1;
-      let password = cookieData[1].substr(eqPos2,cookieData[1].length);
-      
+      let password = cookieData[1].substr(eqPos2, cookieData[1].length);
+
       const loginData = {
         email,
         password
@@ -24,7 +24,7 @@ const Dashboard = ({ dispatch, isLoggedIn }) => {
       console.log("logindata in dashboard", loginData);
 
       axios
-        .post("/login", {
+        .post("/redis", {
           loginData
         })
         .then(function(response) {
@@ -47,8 +47,8 @@ const Dashboard = ({ dispatch, isLoggedIn }) => {
     console.log("isLoggedin in logout", isLoggedIn);
   };
 
-  if(!isLoggedIn){
-    return <Redirect to="/login" />
+  if (!isLoggedIn) {
+    return <Redirect to="/login" />;
   }
 
   return (
