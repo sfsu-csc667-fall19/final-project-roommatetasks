@@ -22,7 +22,7 @@ const dbName = "roommate-tasks";
 // Create a new MongoClient
 const client = new MongoClient(url);
 
-let loginCounter = 0;
+
 
 // Use connect method to connect to the Server
 client.connect(err => {
@@ -46,8 +46,10 @@ client.connect(err => {
     res.send("You are a registered user now");
   });
 
+  
   app.post("/login", (req, res) => {
-    loginCounter++;
+    let loginCounter = 0;
+    console.log("login counter in auth service". loginCounter);
     let valid = false;
     console.log("in login server", req.body.loginData);
     var document = db

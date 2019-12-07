@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-  email: "temp",
+  email: "",
   isLoggedIn: false
 };
 

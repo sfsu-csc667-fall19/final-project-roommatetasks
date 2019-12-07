@@ -3,15 +3,13 @@ import ReactDOM from "react-dom";
 import RegisterUser from "./RegisterUser";
 import axios from "axios";
 import md5 from "md5";
+import {setIsLoggedIn} from '../redux/actions/userActions';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
-const Login = () => {
+const Login = ({dispatch, isLoggedIn}) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-
-  // React.useEffect(() => {
-  //   console.log("in useEffect")
-
-  // },[])
 
   const handleLogin = () => {
     console.log("in handle login", email, password);
@@ -27,16 +25,21 @@ const Login = () => {
       })
       .then(function(response) {
         console.log("back to login", response);
-        // if(response.data.valid){
-        //   console.log("we can set cookies here");
-        //   document.cookie = `email=${email}`; 
-        //   document.cookie = `password=${md5(password)}`; 
-        // }
+        if (response.data.valid) {
+          console.log("we can set cookies here");
+          document.cookie = `email=${email}`; 
+          document.cookie = `password=${md5(password)}`;
+          dispatch(setIsLoggedIn(true));
+        }
       })
       .catch(function(error) {
         console.log(error);
       });
   };
+
+  if (isLoggedIn) {
+    return <Redirect to="/dashboard"/>;
+  }
 
   const handleRegister = () => {
     console.log("in register user");
@@ -80,4 +83,8 @@ const Login = () => {
   );
 };
 
-export default Login;
+const mapStateToProps = state => ({
+  isLoggedIn: state.userReducer.isLoggedIn,
+});
+
+export default connect(mapStateToProps)(Login);

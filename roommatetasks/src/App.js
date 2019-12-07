@@ -4,6 +4,7 @@ import './App.css';
 import { connect } from 'react-redux';
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
 import RegisterUser from "./pages/RegisterUser"
 
 const App = ( isLoggedIn ) => {
@@ -21,8 +22,12 @@ const App = ( isLoggedIn ) => {
         <div>
           <Link to ="/registeruser"> Register </Link>
         </div>
+        <div>
+          <Link to ="/dashboard"> Dashboard </Link>
+        </div>
       </div>
       <Switch>
+        <Route path="/dashboard" component={Dashboard} />
         <Route path="/registeruser" component={RegisterUser} />
         <Route path="/login" component={Login} />
         {/* <Route path="/notes" component={Notes} /> */}
