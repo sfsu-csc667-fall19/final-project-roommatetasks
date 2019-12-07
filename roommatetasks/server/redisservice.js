@@ -18,12 +18,35 @@ app.post("/redis", (req, res, next) => {
   console.log("cookies in redis server", req.cookies);
 
   const loginData = {
-    email: req.body.loginData.email,
-    password: req.body.loginData.password
-  };
+    email: req.cookies.email,
+    password: req.cookies.password 
+ };
 
-  //   const key = req.body.loginData.email + "_" + req.body.loginData.password;
-  //   console.log("key is", key);
+  const key = req.cookies.email + "_" + req.cookies.password;
+  console.log("key is", key);
+
+  client.get(key, (err, cachedValue) => {
+    console.log("error in client get",err);
+    console.log("cached value in client get",cachedValue);
+    if(cachedValue === 'true'){
+        res.send({
+            valid: true
+        })
+    }
+    else{
+        axios.post("http://localhost:3000/login", {loginData})
+        .then(res => {
+            console.log(res.data.valid);
+            if(res.data.valid){
+                client.set(key, true)
+                next();
+            }
+            // client.set(key, true);
+            // next();
+        })
+        .catch(console.log);   
+    }
+  });
 
   //   client.get(key, (err, cachedValue) => {
   //     console.log("error is",err);
@@ -55,39 +78,39 @@ app.post("/redis", (req, res, next) => {
   //     }
   //   });
 
-  console.log(req.cookies);
-  const key = req.body.loginData.email + "_" + req.body.loginData.password;
-  console.log("key is", key);
+  //   console.log(req.cookies);
+  //   const key = req.body.loginData.email + "_" + req.body.loginData.password;
+  //   console.log("key is", key);
 
-  client.get(key, (err, cachedValue) => {
-    console.log(err);
-    console.log("cached value is", cachedValue);
-    if (cachedValue !== null) {
-      console.log("cache hit");
-      if (cachedValue === "true") {
-        return next();
-      } else {
-        res.status(403);
-        return res.send("You need access to this endpoint!");
-      }
-    } else {
-      console.log("cache miss");
-      // move rest of code in here
-      axios
-        .post("http://localhost:2305/login", {loginData})
-        .then(res => {
-          if (res.data.valid) {
-            client.set(key, true);
-            console.log("cookie here");
-            return next();
-          } else {
-            client.set(key, false);
-            res.status(403);
-            return res.send("You need access to this endpoint!");
-          }
-        })
-        .catch(console.log);
-    }
-  });
+  //   client.get(key, (err, cachedValue) => {
+  //     console.log(err);
+  //     console.log("cached value is", cachedValue);
+  //     if (cachedValue !== null) {
+  //       console.log("cache hit");
+  //       if (cachedValue === "true") {
+  //         return next();
+  //       } else {
+  //         res.status(403);
+  //         return res.send("You need access to this endpoint!");
+  //       }
+  //     } else {
+  //       console.log("cache miss");
+  //       // move rest of code in here
+  //       axios
+  //         .post("http://localhost:2305/login", {loginData})
+  //         .then(res => {
+  //           if (res.data.valid) {
+  //             client.set(key, true);
+  //             console.log("cookie here");
+  //             return next();
+  //           } else {
+  //             client.set(key, false);
+  //             res.status(403);
+  //             return res.send("You need access to this endpoint!");
+  //           }
+  //         })
+  //         .catch(console.log);
+  //     }
+  //   });
 });
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
