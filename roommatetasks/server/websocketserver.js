@@ -36,6 +36,7 @@ wss.on('connection', (ws) => {
 
   ws.on('message', (message) => {
     const messageObject = JSON.parse(message);
+
     switch(messageObject.type){
       case 'SEND_MESSAGE':
           broadcastAllMessages(messageObject.newNote);

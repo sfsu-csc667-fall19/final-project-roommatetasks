@@ -4,10 +4,6 @@ const app = express();
 const cors = require("cors");
 const port = 2305;
 const cookieParser = require("cookie-parser");
-const redis = require("redis");
-const axios = require("axios");
-
-const redisClient = redis.createClient();
 
 app.use(cors());
 app.use(express.json());

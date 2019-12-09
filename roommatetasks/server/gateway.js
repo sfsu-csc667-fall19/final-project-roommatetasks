@@ -31,4 +31,18 @@ app.all("/redis", (req, res) => {
     });
   });
 
+app.all("/addnote", (req, res) => {
+  console.log("in add note path in gateway", req.path);
+  apiProxy.web(req, res, {
+    target: "http://localhost:2308"
+  })
+})
+
+app.all("/listnote", (req, res) => {
+  console.log("in list note path in gateway", req.path);
+  apiProxy.web(req, res, {
+    target: "http://localhost:2308"
+  })
+})
+
 app.listen(port, () => console.log(`Gateway on port ${port}!`));
