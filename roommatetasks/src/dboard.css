@@ -15,7 +15,20 @@
     
     /* max-width:200px; */
     min-width: 200px;
+    
+    min-height: 220px;
     max-height: 220px;
+    /* min-height: 270px; */
+    overflow-y: auto;
+}
+
+.innerBox2{
+    
+    /* max-width:200px; */
+    min-width: 200px;
+    
+    min-height: 240px;
+    max-height: 100%;
     /* min-height: 270px; */
     overflow-y: auto;
 }
@@ -24,7 +37,7 @@
     background-color: whitesmoke;
     padding: 8px;
     min-height: 5px;
-    width: 230px;
+    max-width: 230px;
     /* min-width: 200px; */
     margin: 5px;
     border-radius: 5px;
