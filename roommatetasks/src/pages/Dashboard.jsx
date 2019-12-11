@@ -2,11 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { setIsLoggedIn } from "../redux/actions/userActions";
-import { setTryNotes } from "../redux/actions/notesAction";
+import { setDoneNotes } from "../redux/actions/notesAction";
 import { setNotes } from "../redux/actions/notesAction";
 import { Redirect } from "react-router-dom";
+import "./dashboard.css";
 
-const Dashboard = ({ dispatch, isLoggedIn, activeUsers, notes, tryNotes }) => {
+const Dashboard = ({ dispatch, isLoggedIn, activeUsers, notes, doneNotes }) => {
   React.useEffect(() => {
     console.log("in useeffect of dashboard isLoggedin", isLoggedIn);
     if (!isLoggedIn) {
@@ -45,7 +46,7 @@ const Dashboard = ({ dispatch, isLoggedIn, activeUsers, notes, tryNotes }) => {
   React.useEffect(() => {
     console.log("in dashboard's second useEffect");
 
-    axios.get("/listnote").then(function(response) {
+    axios.get("/listnewnote").then(function(response) {
       console.log("list all the notes now");
       console.log(response.data.document);
       let arrayToAddToNotes = [];
@@ -59,6 +60,22 @@ const Dashboard = ({ dispatch, isLoggedIn, activeUsers, notes, tryNotes }) => {
       }
       dispatch(setNotes(arrayToAddToNotes));
     });
+
+    axios.get("/listdonenote").then(function(response) {
+      console.log("list all the done notes now");
+      console.log(response.data.document);
+      let arrayToAddToDoneNotes = [];
+      for (let i = 0; i < response.data.document.length; i++) {
+        let temp = response.data.document[i].noteText;
+        arrayToAddToDoneNotes.push(temp);
+        console.log(
+          "in for loop of use effect and each pulled notes are:",
+          temp
+        );
+      }
+      dispatch(setDoneNotes(arrayToAddToDoneNotes));
+    });
+
   }, []);
 
   const [text, setText] = React.useState("");
@@ -83,7 +100,8 @@ const Dashboard = ({ dispatch, isLoggedIn, activeUsers, notes, tryNotes }) => {
 
     const noteData = {
       text,
-      key: Date.now()
+      key: Date.now(),
+      tag: "newNote"
     };
 
     console.log("before axios post of add note, note data is", noteData);
@@ -94,12 +112,70 @@ const Dashboard = ({ dispatch, isLoggedIn, activeUsers, notes, tryNotes }) => {
       }
     });
 
-    axios.get("/listnote").then(function(response) {
+    axios.get("/listnewnote").then(function(response) {
       console.log("list all the notes now");
       console.log(response.data.document);
-      dispatch(setTryNotes(response.data.document));
+      let arrayToAddToNotes = [];
+      for (let i = 0; i < response.data.document.length; i++) {
+        let temp = response.data.document[i].noteText;
+        arrayToAddToNotes.push(temp);
+        console.log(
+          "in for loop of use effect and each pulled notes are:",
+          temp
+        );
+      }
+      dispatch(setNotes(arrayToAddToNotes));
     });
   };
+
+  const handleDone = (note) => {
+    console.log("in handle done and note is ", note);
+
+    const newNoteData = {
+      note
+    }
+
+    axios.post("/updatenote", {newNoteData})
+    .then(function(response) {
+      console.log("back to dashboard", response);
+      if (response.data.updated) {
+        console.log("note is updated");
+      }
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+
+    axios.get("/listdonenote").then(function(response) {
+      console.log("list all the done notes now");
+      console.log(response.data.document);
+      let arrayToAddToDoneNotes = [];
+      for (let i = 0; i < response.data.document.length; i++) {
+        let temp = response.data.document[i].noteText;
+        arrayToAddToDoneNotes.push(temp);
+        console.log(
+          "in for loop of use effect and each pulled notes are:",
+          temp
+        );
+      }
+      dispatch(setDoneNotes(arrayToAddToDoneNotes));
+    });
+    
+    axios.get("/listnewnote").then(function(response) {
+      console.log("list all the notes now");
+      console.log(response.data.document);
+      let arrayToAddToNotes = [];
+      for (let i = 0; i < response.data.document.length; i++) {
+        let temp = response.data.document[i].noteText;
+        arrayToAddToNotes.push(temp);
+        console.log(
+          "in for loop of use effect and each pulled notes are:",
+          temp
+        );
+      }
+      dispatch(setNotes(arrayToAddToNotes));
+    });
+  }
 
   if (!isLoggedIn) {
     return <Redirect to="/login" />;
@@ -120,10 +196,28 @@ const Dashboard = ({ dispatch, isLoggedIn, activeUsers, notes, tryNotes }) => {
         <div>
           <button onClick={handleAddNote}> Add Note </button>
           <div>
-            {notes.map((note, i) => (
-              <div key={i}>{note}</div>
-            ))}
-          </div>
+            <span>
+              {" "}
+              {notes.map((note, i) => (
+                <div>
+                <span key={i}>{note}</span>
+                <span> <button onClick={() => {handleDone(note)}}> Done </button> </span>
+                </div>
+              ))}
+            </span>
+           </div>
+           <div> Done notes are: </div>
+           <div>
+            <span>
+              {" "}
+              {doneNotes.map((doneNote, i) => (
+                <div>
+                <span key={i}>{doneNote}</span>
+                {/* <span> <button onClick={() => {handleDone(note)}}> Done </button> </span> */}
+                </div>
+              ))}
+            </span>
+           </div>
         </div>
       </div>
       <button onClick={handleLogout}>Logout</button>
@@ -135,7 +229,7 @@ const mapStateToProps = state => ({
   isLoggedIn: state.userReducer.isLoggedIn,
   activeUsers: state.userReducer.activeUsers,
   notes: state.notesReducer.notes,
-  tryNotes: state.notesReducer.tryNotes
+  doneNotes: state.notesReducer.doneNotes
 });
 
 export default connect(mapStateToProps)(Dashboard);

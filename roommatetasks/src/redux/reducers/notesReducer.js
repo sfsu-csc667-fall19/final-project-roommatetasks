@@ -1,7 +1,7 @@
 const DEFAULT_STATE = {
   notes: ['test'],
   tryNotes: [],
-  arrayOfNotes: []
+  doneNotes: []
 };
 
 const notesReducer = (state = DEFAULT_STATE, action) => {
@@ -16,9 +16,10 @@ const notesReducer = (state = DEFAULT_STATE, action) => {
         ...state,
         tryNotes: action.tryNotes
       };
-    case 'SET_ARRAY_OF_NOTES':
+    case 'SET_DONE_NOTES':
       return{
         ...state,
+        doneNotes: action.doneNotes
       }
     default:
       return state;
