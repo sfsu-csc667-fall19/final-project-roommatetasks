@@ -16,8 +16,6 @@ const dbName = "roommate-tasks";
 // Create a new MongoClient
 const client = new MongoClient(url);
 
-
-
 // Use connect method to connect to the Server
 client.connect(err => {
   if (err) {
@@ -31,20 +29,69 @@ client.connect(err => {
   app.post("/addnote", (req, res) => {
     console.log("in add notes service", req.body.noteData);
     db.collection("notes").insertOne({
-      noteText: req.body.noteData.text ,
-      noteKey: req.body.noteData.key
+      noteText: req.body.noteData.text,
+      noteKey: req.body.noteData.key,
+      tag: req.body.noteData.tag
     });
 
-    res.send({valid: true});
+    res.send({ valid: true });
   });
 
-  app.get("/listnote", (req, res) => {
-      console.log("in list notes service");
-      db.collection("notes").find().toArray()
+  app.get("/listnewnote", (req, res) => {
+    console.log("in list notes service");
+    db.collection("notes")
+      .find({ tag: "newNote" })
+      .toArray()
       .then(document => {
-          res.send({document});
-      })
-  })
+        res.send({ document });
+      });
+  });
+
+  app.post("/updatenote", (req, res) => {
+    console.log("in update note service", req.body.newNoteData);
+
+    let noteName = req.body.newNoteData.note;
+    console.log("in update note service, note name is", noteName);
+
+    db.collection("notes").updateOne(
+      { "noteText": `${noteName}` },
+      { $set: { "tag": "done" } }
+    )
+    .then(() => {
+      res.send({ updated: true });
+    })
+    .catch((e) => {
+      console.log(e);
+    })  
+  });
+
+  app.get("/listdonenote", (req, res) => {
+    console.log("in done list notes service");
+    db.collection("notes")
+      .find({ tag: "done" })
+      .toArray()
+      .then(document => {
+        res.send({ document });
+      });
+  });
+
+  // app.post("/updatenote"),
+  //   (req, res) => {
+  //     console.log("in update note service");
+  // let noteName = req.body.newNoteData.note;
+  // console.log("in update note service, note name is", noteName);
+
+  // db.collection("notes").update(
+  //   { noteText: { noteName } },
+  //   { $set: { tag: "done" } }
+  // );
+
+  //     res.send({
+  //       updated: true
+  //     });
+  //   };
+
+  // db.getCollection('notes').update({"tag":"done"}, {$set: {"tag":"newNote"}})
 
   app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 });
