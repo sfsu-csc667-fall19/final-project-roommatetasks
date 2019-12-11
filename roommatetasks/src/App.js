@@ -4,6 +4,7 @@ import './App.css';
 import { connect } from 'react-redux';
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import DashBoard from "./pages/DashBoard";
 
 const App = ( isLoggedIn ) => {
   return (
@@ -19,13 +20,13 @@ const App = ( isLoggedIn ) => {
         )}
         {!isLoggedIn && (
           <div>
-            <Link to="/notes">Notes</Link>
+            <Link to="/dashboard">Notes</Link>
           </div>
         )}
       </div>
       <Switch>
         <Route path="/login" component={Login} />
-        {/* <Route path="/notes" component={Notes} /> */}
+        <Route path="/dashboard" component={DashBoard} />
         <Route path="/" component={Home} />
       </Switch>
     </div>
