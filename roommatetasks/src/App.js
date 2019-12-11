@@ -4,7 +4,9 @@ import './App.css';
 import { connect } from 'react-redux';
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import DashBoard from "./pages/DashBoard";
+import Dashboard from "./pages/Dashboard";
+import RegisterUser from "./pages/RegisterUser";
+import dBoard from "./pages/DashBoard";
 
 const App = ( isLoggedIn ) => {
   return (
@@ -18,15 +20,19 @@ const App = ( isLoggedIn ) => {
             <Link to="/login">Login</Link>
           </div>
         )}
-        {!isLoggedIn && (
-          <div>
-            <Link to="/dashboard">Notes</Link>
-          </div>
-        )}
+        <div>
+          <Link to ="/registeruser"> Register </Link>
+        </div>
+        <div>
+          <Link to ="/dashboard"> Dashboard </Link>
+        </div>
       </div>
       <Switch>
+        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/registeruser" component={RegisterUser} />
         <Route path="/login" component={Login} />
-        <Route path="/dashboard" component={DashBoard} />
+        {/* <Route path="/dashboard" component={Dashboard} /> */}
+        <Route path="/board" component={dBoard}/>
         <Route path="/" component={Home} />
       </Switch>
     </div>

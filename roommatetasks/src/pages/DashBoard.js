@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../dboard.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -14,8 +14,8 @@ const DashBoard = () => {
     // function to get all task.
     const fetchData = async () => {
         const response = await axios.get(`/listnote`);
-        const tempList =
-            response.data.map((allTasks) =>
+        console.log(response.data);
+        const tempList = response.data.document.map((allTasks) =>
                 <div className="noteBox">
                     <div className="row">
                         <div className="col-1"><input className="check" type="checkbox"></input></div>
@@ -23,7 +23,9 @@ const DashBoard = () => {
                         <div className="col-1"><button className="deleteBot" onClick={() => deleteTask('some id')}>x</button></div>
                     </div>
                 </div>
-            )
+            );
+            setTaskList(tempList);
+            console.log(tempList);
     }
 
     // function to create create a task. 
