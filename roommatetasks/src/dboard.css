@@ -15,7 +15,7 @@
     
     /* max-width:200px; */
     min-width: 200px;
-    max-height: 260px;
+    max-height: 220px;
     /* min-height: 270px; */
     overflow-y: auto;
 }
@@ -27,6 +27,7 @@
     width: 230px;
     /* min-width: 200px; */
     margin: 5px;
+    border-radius: 5px;
 }
 
 .noteBoxDone{
