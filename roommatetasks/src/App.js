@@ -4,9 +4,9 @@ import './App.css';
 import { connect } from 'react-redux';
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "../src/pages/Dashboard";
 import RegisterUser from "./pages/RegisterUser";
-import dBoard from "./pages/DashBoard";
+// import DBoard from "../pages/DBoard";
 
 const App = ( isLoggedIn ) => {
   return (
@@ -32,7 +32,7 @@ const App = ( isLoggedIn ) => {
         <Route path="/registeruser" component={RegisterUser} />
         <Route path="/login" component={Login} />
         {/* <Route path="/dashboard" component={Dashboard} /> */}
-        <Route path="/board" component={dBoard}/>
+        {/* <Route path="/board" component={DBoard}/> */}
         <Route path="/" component={Home} />
       </Switch>
     </div>
