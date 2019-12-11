@@ -6,6 +6,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
+import Dashboard from "./pages/Dashboard";
+import RegisterUser from "./pages/RegisterUser"
 
 const App = (isLoggedIn) => {
   return (
@@ -19,11 +21,12 @@ const App = (isLoggedIn) => {
             <Link to="/login">Login</Link>
           </div>
         )}
-        {!isLoggedIn && (
-          <div>
-            <Link to="/notes">Notes</Link>
-          </div>
-        )}
+        <div>
+          <Link to ="/registeruser"> Register </Link>
+        </div>
+        <div>
+          <Link to ="/dashboard"> Dashboard </Link>
+        </div>
       </div>
       <header className="fixed-top">
         <div className="container-fluid">
@@ -78,6 +81,8 @@ const App = (isLoggedIn) => {
         </div>
       </div>
       <Switch>
+        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/registeruser" component={RegisterUser} />
         <Route path="/login" component={Login} />
         {/* <Route path="/notes" component={Notes} /> */}
         <Route path="/" component={Home} />

@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
-  email: "temp",
-  isLoggedIn: false
+  email: "",
+  isLoggedIn: false,
+  activeUsers: 0
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -14,6 +15,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         email: action.email
+      };
+    case "SET_ACTIVE_USERS":
+      return {
+        ...state,
+        activeUsers: action.activeUsers
       };
     default:
       return state;
