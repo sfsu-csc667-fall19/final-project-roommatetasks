@@ -38,8 +38,22 @@ app.all("/addnote", (req, res) => {
   })
 })
 
-app.all("/listnote", (req, res) => {
+app.all("/listnewnote", (req, res) => {
   console.log("in list note path in gateway", req.path);
+  apiProxy.web(req, res, {
+    target: "http://localhost:2308"
+  })
+})
+
+app.all("/updatenote", (req, res) => {
+  console.log("in update note path in gateway", req.path);
+  apiProxy.web(req, res, {
+    target: "http://localhost:2308"
+  })
+})
+
+app.all("/listdonenote", (req, res) => {
+  console.log("in list done note path in gateway", req.path);
   apiProxy.web(req, res, {
     target: "http://localhost:2308"
   })
