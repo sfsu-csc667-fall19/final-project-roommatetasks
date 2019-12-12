@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Header from './pages/Header';
 import * as serviceWorker from './serviceWorker';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk'; // THIS IS NEW!!
@@ -47,6 +48,7 @@ window.ws = ws;
 ReactDOM.render(
   <Provider store={store}>
     <Router>
+      <Header />
       <App />
     </Router>
   </Provider>
