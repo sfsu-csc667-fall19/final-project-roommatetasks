@@ -64,5 +64,20 @@ client.connect(err => {
       });
   });
 
+
+  app.post("/uploadphoto", (req, res) => {
+    console.log("in file upload authservice")
+    console.log(req.body.email)
+    //console.log(req.body.photo)
+    //console.log(req.photo)
+    db.collection("users").insertOne({
+      email: req.body.email,
+      photo: req.file.myFile
+    });
+
+    res.send("FIle uploaded");
+  });
+
+
   app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 });

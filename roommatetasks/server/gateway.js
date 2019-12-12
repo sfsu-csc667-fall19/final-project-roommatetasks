@@ -59,4 +59,11 @@ app.all("/listdonenote", (req, res) => {
   })
 })
 
+app.all("/uploadphoto", (req, res) => {
+  console.log("in uploadphoto path in gateway", req.path);
+  apiProxy.web(req, res, {
+    target: "http://localhost:2305"
+  })
+})
+
 app.listen(port, () => console.log(`Gateway on port ${port}!`));

@@ -18,10 +18,14 @@ const Dashboard = ({ dispatch, isLoggedIn, activeUsers, notes, doneNotes }) => {
 
       let eqPos2 = cookieData[1].indexOf("=") + 1;
       let password = cookieData[1].substr(eqPos2, cookieData[1].length);
-
+      
       const loginData = {
         email,
         password
+      };
+
+      const selectedFile = {
+        selectedFile: null
       };
 
       console.log("logindata in dashboard", loginData);
@@ -79,6 +83,8 @@ const Dashboard = ({ dispatch, isLoggedIn, activeUsers, notes, doneNotes }) => {
   }, []);
 
   const [text, setText] = React.useState("");
+  let selectedFile = React.useState(null);
+  
 
   const handleLogout = () => {
     document.cookie = "email=";
@@ -181,12 +187,45 @@ const Dashboard = ({ dispatch, isLoggedIn, activeUsers, notes, doneNotes }) => {
     return <Redirect to="/login" />;
   }
 
+
+  /*const fileChangedHandler = (event) => {
+    const file = event.target.files[0]
+  }*/
+
+  
+  const fileChangedHandler = event => {
+    selectedFile = event.target.files[0]
+  }
+  const uploadHandler = () => {
+    console.log(selectedFile)
+    let email = 'hp@gmail.com';
+    const formData = new FormData()
+  
+    formData.append(
+      'myFile',
+    selectedFile
+  )
+  const data = {
+    email: email,
+    photo: formData
+    
+  }
+  console.log(data)
+  axios.post('/uploadphoto', data) 
+  .catch((error) => {
+    console.log(error);
+  });
+  }
+ 
   console.log("Active users are", activeUsers);
   console.log("Tasks are", notes);
 
   return (
     <div>
       <h2>This is Dashboard</h2>
+           <input type="file" onChange={fileChangedHandler}></input>   
+            <button onClick={uploadHandler}>Upload!</button>
+            
       <div className="active-users">active users: {activeUsers}</div>
       <div>
         Add a task for your roommate
