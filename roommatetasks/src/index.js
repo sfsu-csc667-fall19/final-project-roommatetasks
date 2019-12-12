@@ -33,7 +33,6 @@ ws.onmessage = (message) => {
         console.log("in update message");
         console.log(messageObject);
         store.dispatch(setNotes(messageObject.notes));
-        store.dispatch(setTryNotes(messageObject.notes));
         break;
     default:
       console.log("in deault case");

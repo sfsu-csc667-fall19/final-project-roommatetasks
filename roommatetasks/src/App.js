@@ -9,20 +9,25 @@ import RegisterUser from "./pages/RegisterUser";
 // import DBoard from "../pages/DBoard";
 
 const App = ( isLoggedIn ) => {
+  console.log("in app.js isLoggedIn value", isLoggedIn.isLoggedIn)
+  let tempIsLoggedIn = isLoggedIn.isLoggedIn;
   return (
     <div className="App">
       <div className="nav-bar">
         <div>
           <Link to="/">Home</Link>
         </div>
-        {isLoggedIn && (
+        {!tempIsLoggedIn && (
           <div>
             <Link to="/login">Login</Link>
           </div>
         )}
-        <div>
+        {!tempIsLoggedIn && (
+          <div>
           <Link to ="/registeruser"> Register </Link>
         </div>
+        )}
+        
         <div>
           <Link to ="/dashboard"> Dashboard </Link>
         </div>
