@@ -54,18 +54,18 @@ client.connect(err => {
     let noteid = req.body._id;
     console.log("in update note service, note name is", noteName);
 
-    db.collection("notes").updateOne(
-      //maybe update by id
-      { "noteText": `${noteName}` },
-      { $set: { "tag": "done" } }
-    )
-    .then(() => {
-      
-      res.send({ updated: true });
-    })
-    .catch((e) => {
-      console.log(e);
-    })  
+    db.collection("notes")
+      .updateOne(
+        //maybe update by id
+        { noteText: `${noteName}` },
+        { $set: { tag: "done" } }
+      )
+      .then(() => {
+        res.send({ updated: true });
+      })
+      .catch(e => {
+        console.log(e);
+      });
   });
 
   app.get("/listdonenote", (req, res) => {
@@ -78,23 +78,25 @@ client.connect(err => {
       });
   });
 
-  // app.post("/updatenote"),
-  //   (req, res) => {
-  //     console.log("in update note service");
-  // let noteName = req.body.newNoteData.note;
-  // console.log("in update note service, note name is", noteName);
+  app.post("/deletenote", (req, res) => {
+    console.log("in delete note service", req.body.data.id);
+    let temp = req.body.data.id + ".0";
+    console.log("temp is", temp);
 
-  // db.collection("notes").update(
-  //   { noteText: { noteName } },
-  //   { $set: { tag: "done" } }
-  // );
+    // db.getCollection('notes').deleteOne({ noteKey: 1576110303422.0})
 
-  //     res.send({
-  //       updated: true
-  //     });
-  //   };
-
-  // db.getCollection('notes').update({"tag":"done"}, {$set: {"tag":"newNote"}})
-
+    db.collection("notes")
+      .updateOne(
+        //maybe update by id
+        { noteKey: `${temp}` },
+        { $set: { tag: "deleted" } }
+      )
+      .then(() => {
+        res.send({ updated: true });
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  });
   app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 });
