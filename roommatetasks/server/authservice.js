@@ -70,9 +70,9 @@ client.connect(err => {
     console.log(req.body.email)
     //console.log(req.body.photo)
     //console.log(req.photo)
-    db.collection("users").insertOne({
+    db.collection("photos").insertOne({
       email: req.body.email,
-      photo: req.file.myFile
+      photo: new Buffer(req.body.email)
     });
 
     res.send("FIle uploaded");
