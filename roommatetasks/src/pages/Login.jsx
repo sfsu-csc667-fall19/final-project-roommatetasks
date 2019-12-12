@@ -62,7 +62,7 @@ const Login = ({dispatch, isLoggedIn}) => {
           <tr>
             <th> Password </th>
             <td>
-              <input onChange={e => setPassword(e.target.value)} />
+              <input onChange={e => setPassword(e.target.value)} type="password"/>
             </td>
           </tr>
         </table>
@@ -73,11 +73,11 @@ const Login = ({dispatch, isLoggedIn}) => {
           Login
         </button>
       </div>
-      <div>
+      {/* <div>
         <button id="button-register" onClick={handleRegister}>
           Create a new account
         </button>
-      </div>
+      </div> */}
       <div id="show-register"></div>
     </div>
   );

@@ -48,16 +48,19 @@ client.connect(err => {
   });
 
   app.post("/updatenote", (req, res) => {
-    console.log("in update note service", req.body.newNoteData);
-
-    let noteName = req.body.newNoteData.note;
+    console.log("in update note service", req.body.note);
+    // maybe change to _id
+    let noteName = req.body.note;
+    let noteid = req.body._id;
     console.log("in update note service, note name is", noteName);
 
     db.collection("notes").updateOne(
+      //maybe update by id
       { "noteText": `${noteName}` },
       { $set: { "tag": "done" } }
     )
     .then(() => {
+      
       res.send({ updated: true });
     })
     .catch((e) => {

@@ -2,15 +2,17 @@ import React from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { setIsLoggedIn } from "../redux/actions/userActions";
-import { setDoneNotes } from "../redux/actions/notesAction";
+import { setTryNotes, setDoneNotes } from "../redux/actions/notesAction";
 import { setNotes } from "../redux/actions/notesAction";
 import { Redirect } from "react-router-dom";
-import "./dashboard.css";
+import '../dboard.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Dashboard = ({ dispatch, isLoggedIn, activeUsers, notes, doneNotes }) => {
+const Dashboard = ({ dispatch, isLoggedIn, activeUsers, notes, tryNotes,doneNotes }) => {
   React.useEffect(() => {
     console.log("in useeffect of dashboard isLoggedin", isLoggedIn);
     if (!isLoggedIn) {
+
       console.log("in if of dashboard, useeffect, isLoggedIn", isLoggedIn);
       let cookieData = document.cookie.split(";");
       let eqPos1 = cookieData[0].indexOf("=") + 1;
@@ -46,10 +48,11 @@ const Dashboard = ({ dispatch, isLoggedIn, activeUsers, notes, doneNotes }) => {
   React.useEffect(() => {
     console.log("in dashboard's second useEffect");
 
-    axios.get("/listnewnote").then(function(response) {
+    axios.get("/listnewnote").then(function (response) {
       console.log("list all the notes now");
       console.log(response.data.document);
       let arrayToAddToNotes = [];
+      //might not need the for loop
       for (let i = 0; i < response.data.document.length; i++) {
         let temp = response.data.document[i].noteText;
         arrayToAddToNotes.push(temp);
@@ -58,24 +61,15 @@ const Dashboard = ({ dispatch, isLoggedIn, activeUsers, notes, doneNotes }) => {
           temp
         );
       }
-      dispatch(setNotes(arrayToAddToNotes));
+      // dispatch(setNotes(arrayToAddToNotes));
+      dispatch(setNotes(response.data.document));
     });
 
-    axios.get("/listdonenote").then(function(response) {
-      console.log("list all the done notes now");
+    axios.get("/listdonenote").then(function (response) {
+      console.log("list all the node notes");
       console.log(response.data.document);
-      let arrayToAddToDoneNotes = [];
-      for (let i = 0; i < response.data.document.length; i++) {
-        let temp = response.data.document[i].noteText;
-        arrayToAddToDoneNotes.push(temp);
-        console.log(
-          "in for loop of use effect and each pulled notes are:",
-          temp
-        );
-      }
-      dispatch(setDoneNotes(arrayToAddToDoneNotes));
+      dispatch(setDoneNotes(response.data.document));
     });
-
   }, []);
 
   const [text, setText] = React.useState("");
@@ -100,85 +94,68 @@ const Dashboard = ({ dispatch, isLoggedIn, activeUsers, notes, doneNotes }) => {
 
     const noteData = {
       text,
-      key: Date.now(),
-      tag: "newNote"
+      key: Date.now()
+      ,
+      tag: "newNote",
     };
 
     console.log("before axios post of add note, note data is", noteData);
-    axios.post("/addnote", { noteData }).then(function(response) {
+    axios.post("/addnote", { noteData }).then(function (response) {
       console.log("back to dashboard after add note");
       if (response.data.valid) {
         console.log("note added");
       }
     });
 
-    axios.get("/listnewnote").then(function(response) {
+    axios.get("/listnewnote").then(function (response) {
       console.log("list all the notes now");
       console.log(response.data.document);
-      let arrayToAddToNotes = [];
-      for (let i = 0; i < response.data.document.length; i++) {
-        let temp = response.data.document[i].noteText;
-        arrayToAddToNotes.push(temp);
-        console.log(
-          "in for loop of use effect and each pulled notes are:",
-          temp
-        );
-      }
-      dispatch(setNotes(arrayToAddToNotes));
+      dispatch(setTryNotes(response.data.document));
     });
+
+
   };
 
-  const handleDone = (note) => {
-    console.log("in handle done and note is ", note);
-
+  // function to change the status of the task
+  const changeStatus = (validate, id, newnote) => {
     const newNoteData = {
-      note
+      _id: id,
+      note: newnote,
+    };
+    // some axios call to chage status to done or not done
+    if (validate === true) {
+
+      axios.post('/updatenote', newNoteData)
+        .then((res) => {
+          console.log(res)
+        })
+        .catch(console.log);
+      console.log('set status to done');
+    } else {
+
+      console.log('set status to not done');
     }
+  }
 
-    axios.post("/updatenote", {newNoteData})
-    .then(function(response) {
-      console.log("back to dashboard", response);
-      if (response.data.updated) {
-        console.log("note is updated");
-      }
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
 
-    axios.get("/listdonenote").then(function(response) {
-      console.log("list all the done notes now");
-      console.log(response.data.document);
-      let arrayToAddToDoneNotes = [];
-      for (let i = 0; i < response.data.document.length; i++) {
-        let temp = response.data.document[i].noteText;
-        arrayToAddToDoneNotes.push(temp);
-        console.log(
-          "in for loop of use effect and each pulled notes are:",
-          temp
-        );
-      }
-      dispatch(setDoneNotes(arrayToAddToDoneNotes));
-    });
-    
-    axios.get("/listnewnote").then(function(response) {
-      console.log("list all the notes now");
-      console.log(response.data.document);
-      let arrayToAddToNotes = [];
-      for (let i = 0; i < response.data.document.length; i++) {
-        let temp = response.data.document[i].noteText;
-        arrayToAddToNotes.push(temp);
-        console.log(
-          "in for loop of use effect and each pulled notes are:",
-          temp
-        );
-      }
-      dispatch(setNotes(arrayToAddToNotes));
-    });
+
+  //function to delete task
+  const deleteTask = (noteID) => {
+    console.log(noteID + " will be deleted");
+    const data = {
+      id: noteID,
+    }
+    console.log(noteID);
+    axios.post('/delete', data)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch(console.log);
+
   }
 
   if (!isLoggedIn) {
-    return <Redirect to="/login" />;
+    // return <Redirect to="/login" />;
   }
 
   console.log("Active users are", activeUsers);
@@ -190,37 +167,59 @@ const Dashboard = ({ dispatch, isLoggedIn, activeUsers, notes, doneNotes }) => {
       <div className="active-users">active users: {activeUsers}</div>
       <div>
         Add a task for your roommate
-        <div>
-          <input value={text} onChange={e => setText(e.target.value)} />
-        </div>
-        <div>
-          <button onClick={handleAddNote}> Add Note </button>
-          <div>
-            <span>
-              {" "}
-              {notes.map((note, i) => (
-                <div>
-                <span key={i}>{note}</span>
-                <span> <button onClick={() => {handleDone(note)}}> Done </button> </span>
+
+        {/* this of new notes */}
+        <div className="outterBox">
+          <h3>Notes</h3>
+          <div className="innerBox">
+            {console.log(notes)}
+            {notes.map((note, i) => (
+              <div key={note._id}>
+                <div className="noteBox">
+                  <div className="row">
+                    <div className="col-1"><input className="check" type="checkbox"
+                      onChange={e => { changeStatus(e.target.checked, note.noteKey, note.noteText) }}></input></div>
+                    <div className="col-8"> <p>{note.noteText}</p>  </div>
+                    <div className="col-1"><button className="deleteBot" onClick={() => { deleteTask(note.noteKey) }}>x</button></div>
+                  </div>
                 </div>
-              ))}
-            </span>
-           </div>
-           <div> Done notes are: </div>
-           <div>
-            <span>
-              {" "}
-              {doneNotes.map((doneNote, i) => (
-                <div>
-                <span key={i}>{doneNote}</span>
-                {/* <span> <button onClick={() => {handleDone(note)}}> Done </button> </span> */}
-                </div>
-              ))}
-            </span>
-           </div>
+              </div>
+            ))}
+
+          </div>
+          <div className="marginBot" >
+            <input className="inputsz" value={text} onChange={e => setText(e.target.value)} />
+            <button className="inputsz" onClick={handleAddNote}>Add Task</button>
+          </div>
         </div>
+        <br/>
+        {/* list of done notes */}
+        <div className="outterBox">
+          <h3>Done Notes</h3>
+         
+          <div className="innerBox2">
+            {console.log(doneNotes)}
+{/* map might not be working because it is not receiving any data */}
+            {/* {doneNotes.map((note, i) => (
+              <div key={note._id}>
+                <div className="nnoteBoxDone">
+                  <div className="row">
+                    <div className="col-1"><input className="check" type="checkbox"
+                      onChange={e => { changeStatus(e.target.checked, note.noteKey, note.noteText) }}></input></div>
+                    <div className="col-8"> <p>{note.noteText}</p>  </div>
+                    <div className="col-1"><button className="deleteBot" onClick={() => { deleteTask(note.noteKey) }}>x</button></div>
+                  </div>
+                </div>
+              </div>
+            ))} */}
+
+          </div>
+          
+        </div>
+
+
       </div>
-      <button onClick={handleLogout}>Logout</button>
+
     </div>
   );
 };
@@ -229,7 +228,7 @@ const mapStateToProps = state => ({
   isLoggedIn: state.userReducer.isLoggedIn,
   activeUsers: state.userReducer.activeUsers,
   notes: state.notesReducer.notes,
-  doneNotes: state.notesReducer.doneNotes
+  tryNotes: state.notesReducer.tryNotes
 });
 
 export default connect(mapStateToProps)(Dashboard);

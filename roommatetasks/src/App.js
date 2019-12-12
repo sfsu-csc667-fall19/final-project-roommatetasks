@@ -15,7 +15,7 @@ const App = (isLoggedIn) => {
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/registeruser" component={RegisterUser} />
         <Route path="/login" component={Login} />
-        {/* <Route path="/notes" component={Notes} /> */}
+        {/* <Route path="/dashboard" component={Dashboard} /> */}
         <Route path="/" component={Home} />
       </Switch>
     </div>

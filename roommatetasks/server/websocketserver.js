@@ -14,6 +14,7 @@ const broadcastMessage = (message) => {
 
 const broadcastAllMessages = (newNote) => {
   notes.unshift(newNote);
+  console.log("in broadcastallmessage, notes are", notes)
   broadcastMessage({
     type: 'UPDATE_MESSAGE',
     notes,
