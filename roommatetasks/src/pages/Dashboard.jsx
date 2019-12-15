@@ -84,7 +84,7 @@ const Dashboard = ({ dispatch, isLoggedIn, activeUsers, notes, doneNotes }) => {
     console.log("in handle add note");
     const data = {
       type: "SEND_MESSAGE",
-      newNote: text
+      noteText: text
     };
     console.log("what we are sending to websocket", data)
     window.ws.send(JSON.stringify(data));
@@ -152,7 +152,7 @@ const Dashboard = ({ dispatch, isLoggedIn, activeUsers, notes, doneNotes }) => {
           );
         }
         // dispatch(setNotes(arrayToAddToNotes));
-        dispatch(setNotes(response.data.document));
+        dispatch(setNotes(response.data.document.noteText));
       });
   
       axios.get("/listdonenote").then(function(response) {
