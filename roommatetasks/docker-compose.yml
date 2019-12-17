@@ -13,6 +13,7 @@ services:
             - REDIS_HOST=redis
         links:
             - mongo
+            - redis
     mongo: 
         container_name: mongo
         image: mongo
