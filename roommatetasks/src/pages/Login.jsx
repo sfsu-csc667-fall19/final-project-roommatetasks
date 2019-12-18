@@ -3,11 +3,14 @@ import ReactDOM from "react-dom";
 import RegisterUser from "./RegisterUser";
 import axios from "axios";
 import md5 from "md5";
-import {setIsLoggedIn} from '../redux/actions/userActions';
+import { setIsLoggedIn } from '../redux/actions/userActions';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form'
 
-const Login = ({dispatch, isLoggedIn}) => {
+const Login = ({ dispatch, isLoggedIn }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -23,22 +26,22 @@ const Login = ({dispatch, isLoggedIn}) => {
       .post("/login", {
         loginData
       })
-      .then(function(response) {
+      .then(function (response) {
         console.log("back to login", response);
         if (response.data.valid) {
           console.log("we can set cookies here");
-          document.cookie = `email=${email}`; 
+          document.cookie = `email=${email}`;
           document.cookie = `password=${md5(password)}`;
           dispatch(setIsLoggedIn(true));
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
 
   if (isLoggedIn) {
-    return <Redirect to="/dashboard"/>;
+    return <Redirect to="/dashboard" />;
   }
 
   const handleRegister = () => {
@@ -47,38 +50,22 @@ const Login = ({dispatch, isLoggedIn}) => {
   };
 
   return (
-    <div className="container">
-      <div>
-        <h3>Login to the Roommate Task Scheduling </h3>
-      </div>
-      <div className="container">
-        <table>
-          <tr>
-            <th> Email </th>
-            <td>
-              <input onChange={e => setEmail(e.target.value)} />
-            </td>
-          </tr>
-          <tr>
-            <th> Password </th>
-            <td>
-              <input onChange={e => setPassword(e.target.value)} type="password"/>
-            </td>
-          </tr>
-        </table>
-      </div>
-
-      <div>
-        <button id="button-login" onClick={handleLogin}>
-          Login
-        </button>
-      </div>
-      {/* <div>
-        <button id="button-register" onClick={handleRegister}>
-          Create a new account
-        </button>
-      </div> */}
-      <div id="show-register"></div>
+    <div className='margin-from-top'>
+      <h3>Login to the Roommate Task Scheduling </h3>
+      <Form as={Col} column md={6} style={{ textAlign: 'left' }}>
+        <Form.Group>
+          <Form.Label>Email address</Form.Label>
+            <Form.Control onChange={e => setEmail(e.target.value)} type="email"
+              placeholder="Enter email" required></Form.Control>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Password</Form.Label>
+            <Form.Control onChange={e => setPassword(e.target.value)} type="password" placeholder="Password" required></Form.Control>
+        </Form.Group>
+        <Button onClick={handleLogin} variant="primary">
+          Log In
+        </Button>
+      </Form>
     </div>
   );
 };

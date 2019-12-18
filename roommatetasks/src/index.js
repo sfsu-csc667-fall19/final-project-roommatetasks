@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import Header from './pages/Header';
 import * as serviceWorker from './serviceWorker';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk'; // THIS IS NEW!!
@@ -34,7 +33,6 @@ ws.onmessage = (message) => {
         console.log("in update message");
         console.log(messageObject);
         store.dispatch(setNotes(messageObject.notes));
-        store.dispatch(setTryNotes(messageObject.notes));
         break;
     default:
       console.log("in deault case");
@@ -48,12 +46,9 @@ window.ws = ws;
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <div className="container">
-        <Header />
-      </div>
-      <div>
+      <body>
         <App />
-      </div>
+      </body>
     </Router>
   </Provider>
   ,

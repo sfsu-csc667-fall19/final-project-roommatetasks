@@ -59,4 +59,11 @@ app.all("/listdonenote", (req, res) => {
   })
 })
 
+app.all("/deletenote", (req, res) => {
+  console.log("in list done note path in gateway", req.path);
+  apiProxy.web(req, res, {
+    target: "http://localhost:2308"
+  })
+})
+
 app.listen(port, () => console.log(`Gateway on port ${port}!`));
