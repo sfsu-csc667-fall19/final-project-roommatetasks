@@ -188,7 +188,7 @@ const Dashboard = ({ dispatch, isLoggedIn, activeUsers, notes, doneNotes }) => {
   console.log("Tasks are", notes);
 
   return (
-    <div>
+    <div className='margin-from-top'>
       <h2>This is Dashboard</h2>
       <div className="active-users">{activeUsers} people are watching this right now !</div>
       <div>
