@@ -48,8 +48,12 @@ window.ws = ws;
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <Header />
-      <App />
+      <div className="container">
+        <Header />
+      </div>
+      <div>
+        <App />
+      </div>
     </Router>
   </Provider>
   ,

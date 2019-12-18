@@ -47,7 +47,7 @@ const Login = ({dispatch, isLoggedIn}) => {
   };
 
   return (
-    <div>
+    <div className="container">
       <div>
         <h3>Login to the Roommate Task Scheduling </h3>
       </div>
