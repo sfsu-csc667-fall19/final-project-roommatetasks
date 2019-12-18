@@ -52,7 +52,7 @@ const Login = ({ dispatch, isLoggedIn }) => {
   return (
     <div className='margin-from-top'>
       <h3>Login to the Roommate Task Scheduling </h3>
-      <Form as={Col} column md={6} style={{ textAlign: 'left' }}>
+      <Form as={Col} column md={{ span: 6, offset: 3 }} style={{ textAlign: 'left' }}>
         <Form.Group>
           <Form.Label>Email address</Form.Label>
             <Form.Control onChange={e => setEmail(e.target.value)} type="email"

@@ -37,7 +37,7 @@ const RegisterUser = () => {
   return (
     <div className='margin-from-top'>
       <h3>Sign Up Here!</h3>
-      <Form as={Col} column md={6} style={{ textAlign: 'left' }}>
+      <Form as={Col} column md={{ span: 6, offset: 3 }} style={{ textAlign: 'left' }}>
       <Form.Group>
           <Form.Label>First Name</Form.Label>
             <Form.Control onChange={e => setFirstName(e.target.value)} required></Form.Control>
