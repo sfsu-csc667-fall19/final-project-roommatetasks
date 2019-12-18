@@ -46,7 +46,9 @@ window.ws = ws;
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <App />
+      <body>
+        <App />
+      </body>
     </Router>
   </Provider>
   ,

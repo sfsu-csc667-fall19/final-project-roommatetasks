@@ -2,6 +2,9 @@ import React from "react";
 import "./registeruser.css";
 import axios from "axios";
 import md5 from "md5";
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form'
 
 const RegisterUser = () => {
   const [firstName, setFirstName] = React.useState("");
@@ -32,38 +35,30 @@ const RegisterUser = () => {
   };
 
   return (
-    <div>
-      <div className="container">
-        <table>
-          <tr>
-            <th> First Name</th>
-            <td>
-              <input onChange={e => setFirstName(e.target.value)} />
-            </td>
-          </tr>
-          <tr>
-            <th> Last Name</th>
-            <td>
-              <input onChange={e => setLastName(e.target.value)} />
-            </td>
-          </tr>
-          <tr>
-            <th> Email</th>
-            <td>
-              <input onChange={e => setEmail(e.target.value)} />
-            </td>
-          </tr>
-          <tr>
-            <th> Password </th>
-            <td>
-              <input type="password" onChange={e => setPassword(e.target.value)} />
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div>
-        <button onClick={handleRegister}> Register </button>
-      </div>
+    <div className='margin-from-top'>
+      <h3>Sign Up Here!</h3>
+      <Form as={Col} column md={{ span: 6, offset: 3 }} style={{ textAlign: 'left' }}>
+      <Form.Group>
+          <Form.Label>First Name</Form.Label>
+            <Form.Control onChange={e => setFirstName(e.target.value)} required></Form.Control>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Last Name</Form.Label>
+            <Form.Control onChange={e => setLastName(e.target.value)} required></Form.Control>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Email address</Form.Label>
+            <Form.Control onChange={e => setEmail(e.target.value)} type="email"
+              placeholder="Enter email" required></Form.Control>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Password</Form.Label>
+            <Form.Control onChange={e => setPassword(e.target.value)} type="password" placeholder="Password" required></Form.Control>
+        </Form.Group>
+        <Button onClick={handleRegister} variant="primary">
+          Log In
+        </Button>
+      </Form>
     </div>
   );
 };
