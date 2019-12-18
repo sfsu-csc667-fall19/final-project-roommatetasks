@@ -33,33 +33,32 @@ client.connect(err => {
   const db = client.db(dbName);
 
   app.post("/addnote", (req, res) => {
-    producer.connect(() => {
-      console.log("in kafka producer, connected to kafka! - this is what it is sending", req.body.noteData);
-      producer.send(req.body.noteData);
-      // producer.send(req.body.noteData.key);
-    });
-
-    consumer.on("message", message => {
-      console.log("in kafka consumer in add note service");
-      let temp = JSON.parse(message.value);
-      console.log(temp);
-      tempArray.push(temp);
-
-      // console.log("in add notes service", req.body.noteData);
-      // db.collection("notes").insertOne({
-      //   noteText: temp.text,
-      //   noteKey: temp.key,
-      //   tag: temp.tag
-      // });
-    });
-    
-    // // console.log("tempArray is",tempArray);
-    // // console.log("in add notes service", req.body.noteData);
-    // db.collection("notes").insertOne({
-    //   noteText: tempArray[0].text,
-    //   // noteKey: req.body.noteData.key,
-    //   // tag: req.body.noteData.tag
+    // producer.connect(() => {
+    //   console.log("in kafka producer, connected to kafka! - this is what it is sending", req.body.noteData);
+    //   producer.send(req.body.noteData);
+    //   // producer.send(req.body.noteData.key);
     // });
+
+    // consumer.on("message", message => {
+    //   console.log("in kafka consumer in add note service");
+    //   let temp = JSON.parse(message.value);
+    //   console.log(temp);
+    //   tempArray.push(temp);
+
+    //   // console.log("in add notes service", req.body.noteData);
+    //   // db.collection("notes").insertOne({
+    //   //   noteText: temp.text,
+    //   //   noteKey: temp.key,
+    //   //   tag: temp.tag
+    //   // });
+    // });
+    
+    console.log("in add notes service", req.body.noteData);
+    db.collection("notes").insertOne({
+      noteText: req.body.noteData.text,
+      noteKey: req.body.noteData.key,
+      tag: req.body.noteData.tag
+    });
 
     res.send({ valid: true });
   });

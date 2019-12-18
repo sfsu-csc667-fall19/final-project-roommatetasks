@@ -4,6 +4,12 @@ const app = express();
 const cors = require("cors");
 const port = 2305;
 const cookieParser = require("cookie-parser");
+const KafkaConsumer = require("./KafkaConsumer");
+const axios = require("axios");
+const redis = require("redis");
+
+const consumer = new KafkaConsumer(["myTopic", "myOtherTopic"]);
+const redisclient = redis.createClient();
 
 app.use(cors());
 app.use(express.json());
@@ -64,5 +70,30 @@ client.connect(err => {
       });
   });
 
+  consumer.on("message", message => {
+    console.log("in kafka consumer in auth note service");
+    let temp = JSON.parse(message.value);
+    console.log(temp);
+    const loginData = {
+      email: temp.email,
+      password: temp.password
+    };
+
+    const key = temp.email + "_" + temp.password;
+
+    axios.post("http://localhost:3000/login", {loginData})
+      .then(res => {
+          console.log("res data valid",res.data.valid);
+          if(res.data.valid){
+              redisclient.set(key, true)
+              // next();
+          }
+          // client.set(key, true);
+          // next();
+      })
+      .catch(console.log);
+  });
+
+  consumer.connect();
   app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 });

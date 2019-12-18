@@ -3,8 +3,10 @@ const redis = require("redis");
 const cookieParser = require("cookie-parser");
 const axios = require("axios");
 const cors = require("cors");
+const KafkaProducer = require("./KafkaProducer.js");
 
 const client = redis.createClient();
+const producer = new KafkaProducer("myTopic");
 
 const app = express();
 app.use(cookieParser());
@@ -19,32 +21,37 @@ app.post("/redis", (req, res, next) => {
 
   const loginData = {
     email: req.cookies.email,
-    password: req.cookies.password 
- };
+    password: req.cookies.password
+  };
 
   const key = req.cookies.email + "_" + req.cookies.password;
   console.log("key is", key);
 
   client.get(key, (err, cachedValue) => {
-    console.log("error in client get",err);
-    console.log("cached value in client get",cachedValue);
-    if(cachedValue === 'true'){
-        res.send({
-            valid: true
-        })
-    }
-    else{
-        axios.post("http://localhost:3000/login", {loginData})
-        .then(res => {
-            console.log(res.data.valid);
-            if(res.data.valid){
-                client.set(key, true)
-                next();
-            }
-            // client.set(key, true);
-            // next();
-        })
-        .catch(console.log);   
+    console.log("error in client get", err);
+    console.log("cached value in client get", cachedValue);
+    if (cachedValue === "true") {
+      res.send({
+        valid: true
+      });
+    } else {
+      producer.connect(() => {
+        console.log(
+          "in kafka producer, connected to kafka! - this is what it is sending", loginData
+        );
+        producer.send(loginData);
+      });
+      // axios.post("http://localhost:3000/login", {loginData})
+      // .then(res => {
+      //     console.log(res.data.valid);
+      //     if(res.data.valid){
+      //         client.set(key, true)
+      //         next();
+      //     }
+      //     // client.set(key, true);
+      //     // next();
+      // })
+      // .catch(console.log);
     }
   });
 
