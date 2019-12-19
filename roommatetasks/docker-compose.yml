@@ -1,0 +1,78 @@
+version: '3.2'
+services:
+  gateway:
+    container_name: gatewayService
+    image: roommate-task
+    ports:
+      - '2307:2307'
+    command: ['node', '../server/gateway.js']
+    depends_on: ['redisServer', 'kafka']
+    environment:
+      - NODE_ENV=prod
+      - WEBSOCKET_HOST=websocket
+      - WEBSOCKET_PORT=4000
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+  note:
+    container_name: noteService
+    image: roommate-task
+    ports:
+      - '2308:2308'
+    command: ['node', '../server/noteservice.js']
+    depends_on: ['redisServer', 'kafka']
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+  auth:
+    container_name: authService
+    image: roommate-task
+    ports:
+      - '2305:2305'
+    command: ['node', '../server/authservice.js']
+    depends_on: ['redisServer', 'kafka']
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+  websocket:
+    container_name: websocketService
+    image: roommate-task
+    depends_on: ['redisServer', 'kafka']
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    environment:
+      - REDISHOST=redisServer
+      - NODE_ENV=prod
+    command: ['node', '../server/websocketserver.js']
+  redisServer:
+    image: redis
+    container_name: redisCache
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - '2181:2181'
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+  kafka:
+    image: wurstmeister/kafka
+    ports:
+      - '9092:9092'
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ADVERTISED_PORT: '9092'
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
