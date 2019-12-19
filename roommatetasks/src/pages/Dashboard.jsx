@@ -152,7 +152,12 @@ const Dashboard = ({ dispatch, isLoggedIn, activeUsers, notes, doneNotes }) => {
           );
         }
         // dispatch(setNotes(arrayToAddToNotes));
+        if(response.data.document.noteText)
         dispatch(setNotes(response.data.document.noteText));
+        else {
+          dispatch(setNotes(response.data.document))
+          console.log("reeee");
+        }
       });
   
       axios.get("/listdonenote").then(function(response) {
